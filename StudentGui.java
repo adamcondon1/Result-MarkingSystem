@@ -1,0 +1,347 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package markingsystem;
+
+import java.util.ArrayList;
+import java.io.*;
+import javax.swing.JOptionPane;
+import java.util.*;
+
+/**
+ *
+ * @author adamc
+ */
+public class StudentGui extends javax.swing.JFrame {
+    //declaration of ArrayLists
+      ArrayList<Course> courses;
+      ArrayList<Student> students;
+      
+    
+    /**
+     * Creates new form StudentGui
+     */
+    public StudentGui() {
+        initComponents();
+        //creating ArrayLists and use of populate ArrayList method
+        courses = new ArrayList<Course>();
+        students = new ArrayList<Student>();
+        populateArrayList();
+        
+        String [] coursesArray = new String[courses.size()];
+        
+        for (int i=0; i < courses.size(); i++){
+        
+            coursesArray[i] = courses.get(i).getName() + "";
+            
+        }
+                
+        courseCB.setModel(new javax.swing.DefaultComboBoxModel<>(coursesArray));
+
+    }
+        //saving courses to a file to be available to select upon grading the student 
+        public void saveCoursesToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("Courses.dat");
+            ObjectOutputStream outputFile = new ObjectOutputStream(file);
+            
+            //writing to a file with for loop
+            for(int i = 0; i < courses.size(); i++){
+            outputFile.writeObject(courses.get(i));
+            }
+            outputFile.close();
+            
+                JOptionPane.showMessageDialog(null, "Thank you your course has been saved");
+                this.dispose();
+
+        }
+        catch(IOException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }
+    //saving students to a file and results and names are displayed on the results page 
+    public void saveStudentsToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("Students.dat");
+            ObjectOutputStream outputFile = new ObjectOutputStream(file);
+            
+            //writing to a file with for loop
+            for(int i = 0; i < students.size(); i++){
+            outputFile.writeObject(students.get(i));
+            }
+            outputFile.close();
+            
+                    JOptionPane.showMessageDialog(null, "Thank you your student details have been saved");
+                    this.dispose();
+
+        }
+        catch(IOException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+
+        }
+    }
+    
+       
+    //use of Populate Arraylist method creating helps read dat from file course.dat and student.dat
+     public void populateArrayList()
+    {
+             try
+        {
+            FileInputStream file = new FileInputStream("Courses.dat");
+            ObjectInputStream inputFile = new ObjectInputStream(file);
+            
+            boolean endOfFile = false;
+            
+            while(!endOfFile){
+            
+            //reading courses that have been saved to the file 
+            try
+            {
+                courses.add((Course)inputFile.readObject());
+            }
+            
+            catch(EOFException e){
+                     endOfFile = true;
+                    }
+            
+            catch(Exception f)
+                    {
+                     JOptionPane.showMessageDialog(null, f.getMessage());
+                    }
+            
+            }
+            inputFile.close();
+            
+        }
+        catch(IOException e)
+         {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    
+        try
+        {
+            FileInputStream file2 = new FileInputStream("Students.dat");
+            ObjectInputStream inputFile2 = new ObjectInputStream(file2);
+            
+            boolean endOfFile = false;
+            
+            while(!endOfFile){
+            
+            //reading student that have been saved to the file 
+            try
+            {
+                students.add((Student)inputFile2.readObject());
+            }
+            
+            catch(EOFException e){
+                     endOfFile = true;
+                    }
+            
+            catch(Exception f)
+                    {
+                     JOptionPane.showMessageDialog(null, f.getMessage());
+                    }
+            
+            }
+            inputFile2.close();
+            
+        }
+        catch(IOException e)
+         {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        titleLBL = new javax.swing.JLabel();
+        fnLBL = new javax.swing.JLabel();
+        snLBL = new javax.swing.JLabel();
+        courseLBL = new javax.swing.JLabel();
+        ResultLBL = new javax.swing.JLabel();
+        fnTF = new javax.swing.JTextField();
+        snTF = new javax.swing.JTextField();
+        resultTF = new javax.swing.JTextField();
+        saveBTN = new javax.swing.JButton();
+        courseCB = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        titleLBL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        titleLBL.setForeground(new java.awt.Color(255, 0, 51));
+        titleLBL.setText("Enter the fields required for the Student ");
+
+        fnLBL.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fnLBL.setText("First name ");
+
+        snLBL.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        snLBL.setText("Surname");
+
+        courseLBL.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        courseLBL.setText("Course");
+
+        ResultLBL.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ResultLBL.setText("Result");
+
+        fnTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fnTFActionPerformed(evt);
+            }
+        });
+
+        saveBTN.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        saveBTN.setText("Save");
+        saveBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBTNActionPerformed(evt);
+            }
+        });
+
+        courseCB.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        courseCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fnLBL)
+                            .addComponent(snLBL)
+                            .addComponent(courseLBL)
+                            .addComponent(ResultLBL))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(saveBTN)
+                            .addComponent(fnTF)
+                            .addComponent(snTF)
+                            .addComponent(resultTF)
+                            .addComponent(courseCB, 0, 100, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(titleLBL)))
+                .addContainerGap(62, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLBL)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fnLBL)
+                    .addComponent(fnTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(snLBL)
+                    .addComponent(snTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(courseLBL)
+                    .addComponent(courseCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ResultLBL)
+                    .addComponent(resultTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(saveBTN)
+                .addContainerGap(69, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void saveBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBTNActionPerformed
+        // TODO add your handling code here:
+        
+        //event handling
+        if (fnTF.getText().isEmpty() || snTF.getText().isEmpty() || resultTF.getText().isEmpty()){
+        
+        JOptionPane.showMessageDialog(null,"Please enter all fields");
+            
+        }
+        else{
+        
+            String name = fnTF.getText().trim();
+            String surname = snTF.getText().trim();
+            int courseIndex = courseCB.getSelectedIndex();
+            Course course = courses.get(courseIndex);
+            int result = Integer.parseInt(resultTF.getText().trim());
+            
+            Student student = new Student(name, surname, course, result);
+            
+            students.add(student);
+            
+            courses.add(course);
+            
+            saveStudentsToFile();
+            
+        }
+        
+    }//GEN-LAST:event_saveBTNActionPerformed
+
+    private void fnTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fnTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fnTFActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(StudentGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(StudentGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(StudentGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(StudentGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new StudentGui().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ResultLBL;
+    private javax.swing.JComboBox<String> courseCB;
+    private javax.swing.JLabel courseLBL;
+    private javax.swing.JLabel fnLBL;
+    private javax.swing.JTextField fnTF;
+    private javax.swing.JTextField resultTF;
+    private javax.swing.JButton saveBTN;
+    private javax.swing.JLabel snLBL;
+    private javax.swing.JTextField snTF;
+    private javax.swing.JLabel titleLBL;
+    // End of variables declaration//GEN-END:variables
+}
